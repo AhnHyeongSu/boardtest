@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.example.board.dao.BoardDAO">
+   
+	<resultMap id="pagingResult" type="boardVO">
+		<result property="board_num" column="board_num" />
+		<result property="board_title" column="board_title" />
+		<result property="member_name" column="member_name" />
+		<result property="board_date" column="board_date" />
+	</resultMap>
+	
+	<!-- 게시판 전체검색 -->
+	<select id="boardListAll" resultMap="pagingResult">
+			SELECT *
+			FROM board_t
+	</select>
+	
+	<select id="boardList" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+            SELECT * 
+            FROM board_t
+            ORDER BY board_num DESC
+            LIMIT #{pageStart}, #{perPageNum}
+        ]]>
+	</select>
+	
+	<!-- 전체 게시글 수 조회 -->
+	<select id="boardListCnt" resultType="int">
+        SELECT count(*)
+        FROM board_t
+	</select>
+
+</mapper>
